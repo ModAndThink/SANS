@@ -125,9 +125,3 @@ class ServerSide(object):
         else:
             print("[SERVER] erreur, message trop long")
             return False
-        
-c = ClientSide()
-s = ServerSide(LINK_CLIENT=c)
-
-s.initializeServer()
-c.create_profil("0.0.0.0",5000)
