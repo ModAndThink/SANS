@@ -47,18 +47,20 @@ class ClientSide(object):
     
     def send_msg_all(self,msg):
         for profil in self.all_profil:
-            self.send_str(msg,profil)
+            self.send_str(msg,self.all_profil[profil])
 
 class ServerSide(object):
-    def __init__(self,LINK_CLIENT=ClientSide()):
+    def __init__(self,LINK_CLIENT=ClientSide(),PSEUDO="SP"):
         self.HEADER = 64
         self.FORMAT = "utf-8"
         self.DISCONNECT_MSG = "!DISCONNECT"
         self.LINK_CLIENT = LINK_CLIENT
-        self.PORT = 5000
+        self.PORT = 25000
+        self.PSEUDO = PSEUDO
 
         self.shutdown = False
         self.all_msg_receive = []
+        self.GUI = None
         print("[PROGRAMME] nouveaux objet server")
 
     def initializeServer(self):
@@ -91,7 +93,7 @@ class ServerSide(object):
         time.sleep(1)
         print("[SERVER] lancement du profil")
         isAlreadyDetected = False
-        for i in self.LINK_CLIENT.all_profil:
+        for i in list(self.LINK_CLIENT.all_profil):
             print(i,address[0],i==address[0])
             if i == address[0]:
                 isAlreadyDetected = True
@@ -113,6 +115,8 @@ class ServerSide(object):
                     print(f"{address} : {msg}")
                     self.all_msg_receive.append(msg)
                     self.LINK_CLIENT.send_msg_all(msg)
+                    if self.GUI!=None:
+                        self.GUI.addMessage(msg)
             except Exception as e:
                 print(e)
         
