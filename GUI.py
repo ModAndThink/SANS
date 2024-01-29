@@ -41,7 +41,6 @@ class App(object):
             else:
                 self.addMessage("commande invalide")
         else:
-            self.addMessage(self.LINK_SERVER.PSEUDO+" : "+msg)
             self.LINK_SERVER.LINK_CLIENT.send_msg_all(self.LINK_SERVER.PSEUDO+" : "+msg)
 
     def addMessage(self,text):

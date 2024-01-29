@@ -59,7 +59,7 @@ class ServerSide(object):
         self.PSEUDO = PSEUDO
 
         self.shutdown = False
-        self.all_msg_receive = []
+        self.all_msg_receive = {}
         self.GUI = None
         print("[PROGRAMME] nouveaux objet server")
 
@@ -106,14 +106,14 @@ class ServerSide(object):
             try:
                 msg = connection.recv(self.HEADER).decode(self.FORMAT).strip()
                 isNew = True
-                for i in self.all_msg_receive:
-                    if i==msg:
+                for i in list(self.all_msg_receive):
+                    if self.all_msg_receive[i]==msg or msg.split(":")[1]=="":
                         isNew = False
                         break
                 
                 if isNew:
                     print(f"{address} : {msg}")
-                    self.all_msg_receive.append(msg)
+                    self.all_msg_receive[address[0]] = msg
                     self.LINK_CLIENT.send_msg_all(msg)
                     if self.GUI!=None:
                         self.GUI.addMessage(msg)
