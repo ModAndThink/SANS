@@ -38,6 +38,7 @@ class App(object):
                 self.LINK_SERVER.PSEUDO = command[1]
             elif command[0]=="!initialize" and len(command)==1:
                 self.LINK_SERVER.initializeServer()
+                self.addMessage("Lancement")
             else:
                 self.addMessage("commande invalide")
         else:
@@ -45,7 +46,3 @@ class App(object):
 
     def addMessage(self,text):
         self.listMsg.insert(tk.END,text)
-
-s = network.ServerSide()
-
-App(LINK_SERVER=s).window.mainloop()
