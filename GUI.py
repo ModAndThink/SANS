@@ -52,3 +52,4 @@ class App(object):
 
     def addMessage(self,text):
         self.listMsg.insert(tk.END,text)
+        self.listMsg.see("end")
