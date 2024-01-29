@@ -1,11 +1,9 @@
-
-
 def open_a_file(file):
-    data = []
+    data = ""
     file = open(file,"r")
     file = file.readlines()
     for i in file:
-        data.append(i)
+        data += i
     return data
 
 def write_data(file,data):

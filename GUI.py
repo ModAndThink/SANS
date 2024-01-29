@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.font as tkFont
 import network
+import file_managment
 
 class App(object):
     def __init__(self,LINK_SERVER):
@@ -28,12 +29,17 @@ class App(object):
 
     def sendMessage(self):
         msg = self.input.get()
+        self.input.delete(0,tk.END)
         if msg=="":
             return False
         elif msg[0]=="!":
             command = msg.split(" ")
             if command[0]=="!connect" and len(command)==2:
-                self.LINK_SERVER.LINK_CLIENT.create_profil(command[1],25000)
+                result = self.LINK_SERVER.LINK_CLIENT.create_profil(command[1],25000)
+                if result:
+                    self.addMessage("Profil crée avec succés")
+                else:
+                    self.addMessage("Erreur dans le profil, vérifier votre connexion internet.")
             elif command[0]=="!rename" and len(command)==2:
                 self.LINK_SERVER.PSEUDO = command[1]
             elif command[0]=="!initialize" and len(command)==1:

@@ -2,6 +2,7 @@ import socket
 import threading
 import random
 import time
+import file_managment
 
 class ClientSide(object):
     def __init__(self):
@@ -32,6 +33,16 @@ class ClientSide(object):
             return False
         print("[CLIENT] serveur ouvert, profil valide")
         self.all_profil[ip]=new_client
+        data = file_managment.open_a_file("stockIp.txt")
+        all_addr = data.split("\n")
+        valid = True
+        for addr in all_addr:
+            if addr==ip:
+                valid=False
+                break
+        if valid:
+            data+=ip+"\n"
+            file_managment.write_data("stockIp.txt",data)
         return True
         
     
@@ -73,6 +84,10 @@ class ServerSide(object):
         print(f"[SERVER] écoute au port {self.PORT}")
         thread = threading.Thread(target=self.routine)
         thread.start()
+
+        data = file_managment.open_a_file("stockIp.txt")
+        for c in data.split("\n"):
+            self.LINK_CLIENT.create_profil(c,self.PORT)
 
     def routine(self):
         while not self.shutdown:
