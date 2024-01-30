@@ -133,7 +133,7 @@ class ServerSide(object):
                     if self.GUI!=None:
                         self.GUI.addMessage(msg)
             except Exception as e:
-                print(e)
+                print(e,"message dffds")
         
     def send_str(self,msg,conn):
         message = msg.encode(self.FORMAT)
