@@ -87,7 +87,8 @@ class ServerSide(object):
 
         data = file_managment.open_a_file("stockIp.txt")
         for c in data.split("\n"):
-            self.LINK_CLIENT.create_profil(c,self.PORT)
+            if c!="":
+                self.LINK_CLIENT.create_profil(c,self.PORT)
 
     def routine(self):
         while not self.shutdown:
